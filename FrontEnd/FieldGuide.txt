@@ -1,0 +1,80 @@
+Hey, if you're reading this, then it means you were looking for a field guide
+to the contents of these folders. This text file is here to give you a brief 
+rundown of how to navigate through components and folders. I'm going to keep
+it updated as this architecture grows. Hopefully this will make documenation
+easier for people involved in that portion of the project.
+
+FOLDERS
+-src 
+    This folder contains all the source files for the building of the webpage
+-public
+    This folder contains the manifest.json, and the index.html. The index file
+    should already be in its final form. The manifest file is where we could 
+    change some overhead properties, but agian we shouldn't have to worry about
+    it too much.
+-node_modules
+    This is where our installs live. NPM should manage this for us.
+-Components
+    This is where all the parts of web pages live; things that go into web 
+    pages, but are not themselves entire pages. This includes, but is not 
+    limited to, the ribbon bar.
+-ContextProviders
+    This should include all files which provide context for the rest of the
+    web page. They should generally only be applied in app.js.
+-CSS
+    We won't be using a lot of css files, since we're using the 
+    styled-components import, but there is one file for handling buttons
+    which might be components from react-router-dom that the 
+    styled-components import doesn't have access to creating new versions of.
+-Pages
+    This is a folder of all the pages that compose the website.
+
+FILES
+-app.js
+    This is the main parent of everything else, and it is functionally the
+    root of our webpage. Generally this is where we will be doing the routing
+    work, as well as providing context to the rest of the webpage. 
+    -Context Providers
+        these divs wrap around everything else, and supply both user and color
+        context to everything underneath them. If you want to edit them you 
+        should check out where they are in the ContextProviders folder.
+    -Routes/Route
+        These are the way that our page will handle being a single page app, and
+        giving the impression that it has multiple pages. The Routes div simply 
+        contains all the routes for our page. It doesn't need to do anything 
+        but act as a container. The <Route> divs use the following format:
+        <Route path="/endpoint" element={<ServedPage />} />
+        It is a self closing div. endpoint is the endpoint you want to have in 
+        the search bar for that page. So if you want to have that page at
+        https://www.ourapp.com/Monster, then you have to have enpoint be 
+        "/Monster". ServedPage is the page you want to be served at that route.
+        it should be a self closing div for cleanliness, and will be imported
+        from the pages folder. Any props that it needs can be passed into it.
+-index.js 
+    This file can be safely ignored. It just contains the browser router for our page, and serves the page to index.html.
+-CreateProfilePage.js, SignInPage.js
+    These files provide the pages on which users can create new profiles our
+    sign in. Currently these pages do not provide the returned token to the
+    user. Additionally, when they send the password to the backend they need to 
+    hash it. Both things are on my list of todo.
+-LandingPage.js
+    This is a very simple page. It just has the logo of our company, and a 
+    button that links to the create profile page.
+-MonsterPage.js
+    This page is the main hub of our website, and will be where you will view 
+    your monster. I am still working on implementing Ash's design for it.
+-ColorContext.js
+    This is the file that both creates the context provider the rest of The
+    website uses to cascade theme, and contains the set of colors which set
+    that theme. If you want to change the theming for the website, please
+    do it here. Otherwise, the color context provider is in its final form,
+    and generally should not be altered.
+-RibbonBar.js
+    This component file is the ribon bar which the rest of the website uses
+    for navigation. Currently I'm planning to have it popping in on the left
+    hand side, given that most users are right handed, but this is a decision 
+    I'm very open to changing.
+
+An additional note: please don't make any changes to the css. I'm still 
+learning, so it takes me a while to get all the css working, and more time to 
+fix things that break.

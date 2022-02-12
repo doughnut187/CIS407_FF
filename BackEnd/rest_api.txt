@@ -1,0 +1,87 @@
+=========== Rest API Documentation ===========
+
+--Endpoint format:
+/api/<table_name>
+/api/<table_name>/<id>
+
+---- To get information ----
+Send a GET request to the endpoint.
+The <id> that can be provided is associated to the table's primary key (eg. users -> user_id)
+Data can be sent to specify what columns are returned or to specify the rows that are returned:
+
+* If the where options are not provided, they are assumed to be empty ("where": {})
+* If the columns list is not provided, it is assumed to be all of the columns in the table
+
+DATA EXAMPLES FOR GET:
+(1)
+endpoint = /api/users
+request_data = {
+    "where": {"email": "test@email.com"},
+    "columns": ["user_id", "email", "username"]
+}
+-> Returns user_id, email, username from the users if the user has email = test@email.com
+
+(2)
+endpoint = /api/users
+request_data = {
+    "where": {"username": "someuser"}
+}
+-> Returns all columns from the users table if the user has username = someuser
+
+(3)
+endpoint = /api/monsters
+request_data = {
+    "columns": ["monster_id", "species"]
+}
+-> Returns the monster_id, species from ALL rows in the monsters table
+
+(4)
+endpoint = /api/users/3
+request_data = {
+    "where": {"height": 130},
+    "columns": ["username", "weight"]
+}
+-> Returns the username and weight from the users where user_id = 3 AND height = 130
+
+
+(4):
+endpoint = /api/users
+request_data = {}
+-> Returns ALL columns and ALL rows in the users table 
+
+
+---- To update information ----
+Send a POST request to the endpoint.
+The <id> that can be provided is associated to the table's primary key (eg. users -> user_id)
+Data MUST be sent to specify the updated data, and where options can be sent to specify what rows will be updated:
+
+EXAMPLES FOR POST:
+(1)
+endpoint = /api/users
+request_data = {
+    "data": {"height": 130},
+    "where": {"has_finished_quiz": false}
+}
+-> Updates the height if the user has not finished the quiz
+
+(2)
+endpoint = /api/users
+request_data = {
+    "data": {"weight": 200}
+}
+-> Sets the weight to 200 for ALL users in the
+
+(3)
+endpoint = /api/users/2
+request_data = {
+    "data": {"has_finished_quiz": true}
+}
+-> Updates data for user #2 and sets their quiz status to completed
+
+(4)
+endpoint = /api/users/1
+request_data = {
+    "where": {"has_finished_quiz": true},
+    "data": {"weight": 240, "height": 130}
+}
+-> Updates the weight and height to 240 and 130 respectively if the user has user_id = 1 AND they have finished the quiz

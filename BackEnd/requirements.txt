@@ -1,0 +1,6 @@
+flask
+flask-restful
+python-dotenv
+PyJWT
+mysql-connector-python
+schedule
